@@ -1,9 +1,9 @@
-import Layout from '@/components/layout/Layout'
+import { useEffect, useState } from 'react'
 import MeetupList from '@/components/meetups/MeetupList'
 
 const DUMMY_MEETUPS = [
   {
-    ID: 'm1',
+    id: 'm1',
     title: 'A First Meetup',
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
@@ -11,7 +11,7 @@ const DUMMY_MEETUPS = [
     description: 'This is a meetup'
   },
   {
-    ID: 'm1',
+    id: 'm1',
     title: 'Second Meetup',
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
@@ -21,11 +21,13 @@ const DUMMY_MEETUPS = [
 ]
 
 function HomePage() {
-  return (
-    <Layout>
-      <MeetupList meetups={DUMMY_MEETUPS} />
-    </Layout>
-  )
+  const [loadedMeetups, setLoadedMeetups] = useState([])
+  useEffect(() => {
+    // send http request and fetch data
+    //
+    setLoadedMeetups(DUMMY_MEETUPS)
+  }, [])
+  return <MeetupList meetups={loadedMeetups} />
 }
 
 export default HomePage
