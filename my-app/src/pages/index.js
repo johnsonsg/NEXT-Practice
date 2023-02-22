@@ -23,6 +23,20 @@ function HomePage(props) {
   return <MeetupList meetups={props.meetups} />
 }
 
+// Server Side Rendering - For data changing frequently
+// export async function getServerSideProps(context) {
+//   const req = context.req // request, for something like Authentication
+//   const res = context.res // response
+
+//   // fetch data from an API
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS
+//     }
+//   }
+// }
+
+// Static
 export async function getStaticProps() {
   // fetch data from an API
   return {
