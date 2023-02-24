@@ -10,7 +10,7 @@ const DUMMY_MEETUPS = [
     description: 'This is a meetup'
   },
   {
-    id: 'm1',
+    id: 'm2',
     title: 'Second Meetup',
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
