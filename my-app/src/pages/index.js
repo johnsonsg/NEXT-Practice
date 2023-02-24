@@ -1,23 +1,24 @@
+import { MongoClient } from 'mongodb'
 import MeetupList from '@/components/meetups/MeetupList'
 
-const DUMMY_MEETUPS = [
-  {
-    id: 'm1',
-    title: 'A First Meetup',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
-    address: 'Some Address',
-    description: 'This is a meetup'
-  },
-  {
-    id: 'm2',
-    title: 'Second Meetup',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
-    address: 'Some Address',
-    description: 'This is a meetup'
-  }
-]
+// const DUMMY_MEETUPS = [
+//   {
+//     id: 'm1',
+//     title: 'A First Meetup',
+//     image:
+//       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
+//     address: 'Some Address',
+//     description: 'This is a meetup'
+//   },
+//   {
+//     id: 'm2',
+//     title: 'Second Meetup',
+//     image:
+//       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1600px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
+//     address: 'Some Address',
+//     description: 'This is a meetup'
+//   }
+// ]
 
 function HomePage(props) {
   return <MeetupList meetups={props.meetups} />
@@ -39,11 +40,28 @@ function HomePage(props) {
 // Static
 export async function getStaticProps() {
   // fetch data from an API
+  const client = await MongoClient.connect(
+    'mongodb+srv://johnsonsg:6LOAXi8KulHpceIa@cluster0.wvnjnk4.mongodb.net/meetups?retryWrites=true&w=majority'
+  )
+  const db = client.db()
+
+  const meetupsCollection = db.collection('meetups')
+
+  const meetups = await meetupsCollection.find().toArray()
+
+  client.close()
+
   return {
     props: {
-      meetups: DUMMY_MEETUPS
+      // meetups: DUMMY_MEETUPS
+      meetups: meetups.map(meetup => ({
+        id: meetup._id.toString(),
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image
+      }))
     },
-    revalidate: 10
+    revalidate: 1
   }
 }
 
