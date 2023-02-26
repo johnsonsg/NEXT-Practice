@@ -38,7 +38,12 @@ export async function getStaticPaths() {
   client.close()
 
   return {
-    fallback: false, // false define some paths - true define all paths
+    fallback: 'blocking',
+    // Fallback:
+    // false define some paths - true or 'blocking' define all paths
+    // with True it will immediately return an empty page and then pull down the dynamically generated content once that is done.
+    // with 'blocking' the user will not see anything until the page was pre-generated and the finished page will be served.
+
     paths: meetups.map(meetup => ({
       params: { meetupId: meetup._id.toString() }
     }))
